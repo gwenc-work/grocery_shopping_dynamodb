@@ -1,0 +1,40 @@
+const itemDao = require ("../repository/itemDAO");
+const { checkRes } = require ('../service/checkResultFunction');
+
+async function createItem (name, price, purchased, quantity){
+
+    const result = await itemDao.createItem({item_id: crypto.randomUUID(), name, price, purchased, quantity});
+    const errorMessage = {message: "failed to create grocery item"};
+    const successMessage = {message: "created item", item: result}; //check
+    console.log(checkRes(result, errorMessage, successMessage));
+
+}
+
+async function getItemById(item_id){
+    const result = await itemDao.getItem(item_id);
+    const errorMessage = {message: "failed to get grocery item"};
+    const successMessage = {message: "item returned", item: result};
+    console.log(checkRes(result, errorMessage, successMessage));
+}
+
+async function updateItem(item_id, name, price, purchased, quantity){
+    const result = await itemDao.updateItem({item_id, name, price, purchased, quantity})
+    const errorMessage = {message: "failed to update grocery item"};
+    const successMessage = {message: "updated item", item: result};
+    console.log(checkRes(result, errorMessage, successMessage));
+}
+
+async function deleteItem(item_id){
+    const result = await itemDao.deleteItem(item_id);
+    const errorMessage = {message: "failed to delete item"};
+    const successMessage = {message: "item deleted", item: result};
+    console.log(checkRes(result, errorMessage, successMessage));
+
+}
+
+module.exports = {
+    createItem, 
+    getItemById,
+    updateItem,
+    deleteItem
+}
